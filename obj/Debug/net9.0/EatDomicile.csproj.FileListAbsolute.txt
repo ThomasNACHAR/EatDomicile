@@ -146,3 +146,4 @@
 /Users/thomas/Documents/Projets/C#/EatDomicile/obj/Debug/net9.0/EatDomicile.pdb
 /Users/thomas/Documents/Projets/C#/EatDomicile/obj/Debug/net9.0/EatDomicile.genruntimeconfig.cache
 /Users/thomas/Documents/Projets/C#/EatDomicile/obj/Debug/net9.0/ref/EatDomicile.dll
+/Users/thomas/Documents/Projets/C#/EatDomicile/obj/Debug/net9.0/EatDomicile.sourcelink.json
