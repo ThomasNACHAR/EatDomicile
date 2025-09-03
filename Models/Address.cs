@@ -11,6 +11,7 @@ public class Address
     public string City { get; set; } = null!;
     public string Zip { get; set; } = null!;
     public string Country { get; set; } = null!;
+    public ICollection<User> Users { get; set; } = new List<User>();
 
 
 }

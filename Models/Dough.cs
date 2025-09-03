@@ -8,5 +8,7 @@ public class Dough
     public Guid Id { get; set; } = Guid.NewGuid();
 
     public string Name { get; set; } = null!;
+    
+    public ICollection<Pizza> Pizzas { get; set; } = new List<Pizza>();
 
 }

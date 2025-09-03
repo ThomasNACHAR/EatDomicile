@@ -2,15 +2,18 @@ namespace EatDomicile.Models;
 
 using System.ComponentModel.DataAnnotations;
 
-public abstract class Product
+public class Order
 {
     [Key]
     public Guid Id { get; set; } = Guid.NewGuid();
 
-    public double KCal { get; set; }
-    public double Price { get; set; }
+    public DateTime OrderDate { get; set; }
+    public DateTime DeliveryDate { get; set; }
+    public string Status { get; set; } = null!;
     
-    public ICollection<Allergen> Allergens { get; set; } = new List<Allergen>();
+    public User User { get; set; } = null!;
+    
     public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+
 
 }
