@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EatDomicile")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eb36f6c52a59dd74169413a5945a392368ec1513")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4fbb683afe8353c5d9817e4efa327edbf11870f5")]
 [assembly: System.Reflection.AssemblyProductAttribute("EatDomicile")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EatDomicile")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
