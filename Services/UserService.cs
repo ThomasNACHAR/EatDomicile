@@ -20,6 +20,29 @@ public class UserService
         _userRepository.Save();
     }
 
+    public void UpdateUser(User user)
+    {
+        ValidateUser(user); 
+        
+        _userRepository.Update(user);
+        _userRepository.Save();
+    }
+
+    public User GetUserByEmail(string email)
+    {
+        return _userRepository.GetUserByEmail(email);
+    }
+
+    public void DeleteUserByEmail(string email)
+    {
+        var user = this.GetUserByEmail(email);
+        if (user != null)
+        {
+            _userRepository.Delete(user);
+            _userRepository.Save();
+        }
+    }
+
     private void ValidateUser(User user)
     {
         if (string.IsNullOrEmpty(user.FirstName))
