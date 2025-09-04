@@ -23,7 +23,7 @@ public class Repository<T> : IRepository<T> where T : class
 
     public void Add(T entity)
     {
-        _context.Set<T>().Add(entity);
+        var result = _context.Set<T>().Add(entity);
     }
 
     public void Update(T entity)
@@ -38,6 +38,8 @@ public class Repository<T> : IRepository<T> where T : class
 
     public void Save()
     {
-        _context.SaveChanges();
+        int saved = _context.SaveChanges();
+        if (saved == 0)
+            throw new Exception("Aucune modification enregistrée.");
     }
 }
