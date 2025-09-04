@@ -20,13 +20,16 @@ public class ProductRepository<T> : Repository<T>, IProductRepository<T> where T
 
     public IEnumerable<Product> SearchProductsByName(string name)
     {
-        return _context.Products.Where(p => p.Name.Contains(name)).ToList();
+        return _context.Products
+            .Where(p => p.Name.Contains(name.ToLower().Trim()))
+            .ToList();
     }
 
     public IEnumerable<Product> SearchProductsWithIngredients(ICollection<Ingredient> ingredients)
     {
         return _context.Products
             .OfType<Food>()
+            .AsEnumerable()
             .Where(p => ingredients.All(i => p.Ingredients.Any(pi => pi.Id == i.Id)))
             .ToList();
     }

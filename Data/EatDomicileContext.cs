@@ -21,4 +21,6 @@ public class EatDomicileContext : DbContext
     {
         optionsBuilder.UseSqlServer("Server=localhost,1433;Database=EatDomicile;User Id=sa;Password=Hogan2003!;TrustServerCertificate=True;");
     }
+    
+    
 }
