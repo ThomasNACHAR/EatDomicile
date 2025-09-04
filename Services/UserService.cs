@@ -112,4 +112,20 @@ public class UserService
         if (string.IsNullOrEmpty(address.Country))
             throw new ArgumentException("Le pays est requis.");
     }
+    
+    public void ChangeUserAddress(string email, Guid addressId)
+    {
+        var user = GetUserByEmail(email);
+        if (user == null)
+            throw new ArgumentException("Utilisateur introuvable.");
+
+        var address = _addressRepository.GetById(addressId);
+        if (address == null)
+            throw new ArgumentException("Adresse introuvable.");
+
+        user.Address = address;
+
+        _userRepository.Update(user);
+        _userRepository.Save();
+    }
 }
