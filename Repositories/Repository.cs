@@ -4,7 +4,7 @@ using EatDomicile.Data;
 
 public class Repository<T> : IRepository<T> where T : class
 {
-    private readonly EatDomicileContext _context;
+    protected readonly EatDomicileContext _context;
 
     public Repository(EatDomicileContext context)
     {

@@ -9,8 +9,6 @@ public class Ingredient
 
     public double KCal { get; set; }
     public string Name { get; set; } = null!;
-    public ICollection<Pizza> Pizzas { get; set; } = new List<Pizza>();
-    public ICollection<Burger> Burger { get; set; } = new List<Burger>();
-    public ICollection<Pasta> Pastas { get; set; } = new List<Pasta>();
+    public ICollection<Food> Foods { get; set; } = new List<Food>();
 
 }

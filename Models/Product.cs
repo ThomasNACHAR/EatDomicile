@@ -8,6 +8,7 @@ public abstract class Product
     public Guid Id { get; set; } = Guid.NewGuid();
 
     public double KCal { get; set; }
+    public string Name { get; set; } = null!;
     public double Price { get; set; }
     
     public ICollection<Allergen> Allergens { get; set; } = new List<Allergen>();

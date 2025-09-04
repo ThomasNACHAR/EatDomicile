@@ -4,6 +4,7 @@ using EatDomicile.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EatDomicile.Migrations
 {
     [DbContext(typeof(EatDomicileContext))]
-    partial class EatDomicileContextModelSnapshot : ModelSnapshot
+    [Migration("20250904083530_ForgotNameOnProduct")]
+    partial class ForgotNameOnProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,6 +38,21 @@ namespace EatDomicile.Migrations
                     b.HasIndex("ProductsId");
 
                     b.ToTable("AllergenProduct");
+                });
+
+            modelBuilder.Entity("BurgerIngredient", b =>
+                {
+                    b.Property<Guid>("BurgerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("IngredientsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("BurgerId", "IngredientsId");
+
+                    b.HasIndex("IngredientsId");
+
+                    b.ToTable("BurgerIngredient");
                 });
 
             modelBuilder.Entity("EatDomicile.Models.Address", b =>
@@ -224,19 +242,45 @@ namespace EatDomicile.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("FoodIngredient", b =>
+            modelBuilder.Entity("IngredientPasta", b =>
                 {
-                    b.Property<Guid>("FoodsId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("IngredientsId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("FoodsId", "IngredientsId");
+                    b.Property<Guid>("PastasId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasIndex("IngredientsId");
+                    b.HasKey("IngredientsId", "PastasId");
 
-                    b.ToTable("FoodIngredient");
+                    b.HasIndex("PastasId");
+
+                    b.ToTable("IngredientPasta");
+                });
+
+            modelBuilder.Entity("IngredientPizza", b =>
+                {
+                    b.Property<Guid>("IngredientsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PizzasId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("IngredientsId", "PizzasId");
+
+                    b.HasIndex("PizzasId");
+
+                    b.ToTable("IngredientPizza");
+                });
+
+            modelBuilder.Entity("EatDomicile.Models.Burger", b =>
+                {
+                    b.HasBaseType("EatDomicile.Models.Product");
+
+                    b.Property<bool>("Vegetarian")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("bit");
+
+                    b.HasDiscriminator().HasValue("Burger");
                 });
 
             modelBuilder.Entity("EatDomicile.Models.Drink", b =>
@@ -249,40 +293,31 @@ namespace EatDomicile.Migrations
                     b.HasDiscriminator().HasValue("Drink");
                 });
 
-            modelBuilder.Entity("EatDomicile.Models.Food", b =>
-                {
-                    b.HasBaseType("EatDomicile.Models.Product");
-
-                    b.Property<bool>("Vegetarian")
-                        .HasColumnType("bit");
-
-                    b.HasDiscriminator().HasValue("Food");
-                });
-
-            modelBuilder.Entity("EatDomicile.Models.Burger", b =>
-                {
-                    b.HasBaseType("EatDomicile.Models.Food");
-
-                    b.HasDiscriminator().HasValue("Burger");
-                });
-
             modelBuilder.Entity("EatDomicile.Models.Pasta", b =>
                 {
-                    b.HasBaseType("EatDomicile.Models.Food");
+                    b.HasBaseType("EatDomicile.Models.Product");
 
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Vegetarian")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("bit");
 
                     b.HasDiscriminator().HasValue("Pasta");
                 });
 
             modelBuilder.Entity("EatDomicile.Models.Pizza", b =>
                 {
-                    b.HasBaseType("EatDomicile.Models.Food");
+                    b.HasBaseType("EatDomicile.Models.Product");
 
                     b.Property<Guid>("DoughId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Vegetarian")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("bit");
 
                     b.HasIndex("DoughId");
 
@@ -300,6 +335,21 @@ namespace EatDomicile.Migrations
                     b.HasOne("EatDomicile.Models.Product", null)
                         .WithMany()
                         .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BurgerIngredient", b =>
+                {
+                    b.HasOne("EatDomicile.Models.Burger", null)
+                        .WithMany()
+                        .HasForeignKey("BurgerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EatDomicile.Models.Ingredient", null)
+                        .WithMany()
+                        .HasForeignKey("IngredientsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -345,17 +395,32 @@ namespace EatDomicile.Migrations
                     b.Navigation("Address");
                 });
 
-            modelBuilder.Entity("FoodIngredient", b =>
+            modelBuilder.Entity("IngredientPasta", b =>
                 {
-                    b.HasOne("EatDomicile.Models.Food", null)
-                        .WithMany()
-                        .HasForeignKey("FoodsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("EatDomicile.Models.Ingredient", null)
                         .WithMany()
                         .HasForeignKey("IngredientsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EatDomicile.Models.Pasta", null)
+                        .WithMany()
+                        .HasForeignKey("PastasId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("IngredientPizza", b =>
+                {
+                    b.HasOne("EatDomicile.Models.Ingredient", null)
+                        .WithMany()
+                        .HasForeignKey("IngredientsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EatDomicile.Models.Pizza", null)
+                        .WithMany()
+                        .HasForeignKey("PizzasId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
