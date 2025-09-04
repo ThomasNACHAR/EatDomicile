@@ -8,6 +8,13 @@ using (var context = new EatDomicileContext())
     var address1 = new Address { Street = "221B Baker Street", City = "London", Zip = "NW1 6XE", Country = "Uk" };
     // addressRepository.Add(address1);
     // addressRepository.Save();
+    var addressUser = addressRepository.GetById(Guid.Parse("af51d277-865c-4782-a281-1fe3d61d6802"));
+    
+    var userRepository = new UserRepository<User>(context);
+    var user1 = new User
+        { FirstName = "Thomas", LastName = "NACHAR", Phone = "0123456789", Email = "thomas.nachar@mail.com", Address = addressUser };
+    userRepository.Add(user1);
+    userRepository.Save();
     
     var productRepository = new ProductRepository<Product>(context);
     var vegetarians = productRepository.GetVegetarian();
