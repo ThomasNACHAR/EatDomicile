@@ -64,6 +64,22 @@ public class UserService
         {
             throw new ArgumentException("L'adresse e-mail est requise.");
         }
+
+        try
+        {
+            bool isValid = Regex.IsMatch(user.Email,
+                @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+                RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
+
+            if (!isValid)
+            {
+                throw new ArgumentException("L'adresse e-mail est invalide.");
+            }
+        }
+        catch (RegexMatchTimeoutException)
+        {
+            throw new ArgumentException("Impossible de valider l'adresse e-mail (timeout).");
+        }
     }
 }
 
