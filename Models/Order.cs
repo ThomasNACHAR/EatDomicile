@@ -9,7 +9,7 @@ public class Order
 
     public DateTime OrderDate { get; set; } = DateTime.Now;
     public DateTime DeliveryDate { get; set; }
-    public string Status { get; set; } = "en attente";
+    public OrderStatus Status { get; set; } = OrderStatus.Pending;
     
     public User User { get; set; } = null!;
     public Address Address { get; set; } = null!;

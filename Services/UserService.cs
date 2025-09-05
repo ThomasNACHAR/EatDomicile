@@ -51,13 +51,13 @@ public class UserService
         if (user == null)
             throw new ArgumentNullException(nameof(user));
         
-        if (string.IsNullOrEmpty(user.FirstName))
+        if (string.IsNullOrWhiteSpace(user.FirstName))
             throw new ArgumentException("Le prénom est requis.");
-        if (string.IsNullOrEmpty(user.LastName))
+        if (string.IsNullOrWhiteSpace(user.LastName))
             throw new ArgumentException("Le nom est requis.");
-        if (string.IsNullOrEmpty(user.Phone))
+        if (string.IsNullOrWhiteSpace(user.Phone))
             throw new ArgumentException("Le numéro de téléphone est requis.");
-        if (string.IsNullOrEmpty(user.Email))
+        if (string.IsNullOrWhiteSpace(user.Email))
             throw new ArgumentException("L'adresse e-mail est requise.");
 
         try
@@ -89,9 +89,9 @@ public class UserService
         _addressRepository.Save();
     }
 
-    public Address? GetAddressById(Guid id)
+    public Address? GetAddressById(Guid addressId)
     {
-        return _addressRepository.GetById(id);
+        return _addressRepository.GetById(addressId);
     }
 
     public void DeleteAddress(Guid id)
@@ -108,13 +108,13 @@ public class UserService
     {
         if (address == null)
             throw new ArgumentNullException(nameof(address));
-        if (string.IsNullOrEmpty(address.Street))
+        if (string.IsNullOrWhiteSpace(address.Street))
             throw new ArgumentException("La rue est requise.");
-        if (string.IsNullOrEmpty(address.City))
+        if (string.IsNullOrWhiteSpace(address.City))
             throw new ArgumentException("La ville est requise.");
-        if (string.IsNullOrEmpty(address.Zip))
+        if (string.IsNullOrWhiteSpace(address.Zip))
             throw new ArgumentException("Le code postal est requis.");
-        if (string.IsNullOrEmpty(address.Country))
+        if (string.IsNullOrWhiteSpace(address.Country))
             throw new ArgumentException("Le pays est requis.");
     }
     
