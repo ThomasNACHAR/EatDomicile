@@ -9,6 +9,13 @@ public class ProductRepository<T> : Repository<T>, IProductRepository<T> where T
     {
         
     }
+    public Product? GetProductByName(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            return null;
+
+        return _context.Products.FirstOrDefault(p => p.Name.ToLower().Trim() == name.ToLower().Trim());
+    }
 
     public IEnumerable<Product> GetVegetarian()
     {
@@ -21,7 +28,7 @@ public class ProductRepository<T> : Repository<T>, IProductRepository<T> where T
     public IEnumerable<Product> SearchProductsByName(string name)
     {
         return _context.Products
-            .Where(p => p.Name.Contains(name.ToLower().Trim()))
+            .Where(p => p.Name.ToLower().Trim().Contains(name.ToLower().Trim()))
             .ToList();
     }
 
@@ -29,7 +36,6 @@ public class ProductRepository<T> : Repository<T>, IProductRepository<T> where T
     {
         return _context.Products
             .OfType<Food>()
-            .AsEnumerable()
             .Where(p => ingredients.All(i => p.Ingredients.Any(pi => pi.Id == i.Id)))
             .ToList();
     }

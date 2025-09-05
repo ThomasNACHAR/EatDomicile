@@ -31,7 +31,7 @@ public class UserService
         _userRepository.Save();
     }
 
-    public User GetUserByEmail(string email)
+    public User? GetUserByEmail(string email)
     {
         return _userRepository.GetUserByEmail(email);
     }
@@ -48,6 +48,9 @@ public class UserService
 
     private void ValidateUser(User user)
     {
+        if (user == null)
+            throw new ArgumentNullException(nameof(user));
+        
         if (string.IsNullOrEmpty(user.FirstName))
             throw new ArgumentException("Le prénom est requis.");
         if (string.IsNullOrEmpty(user.LastName))
@@ -86,7 +89,7 @@ public class UserService
         _addressRepository.Save();
     }
 
-    public Address GetAddressById(Guid id)
+    public Address? GetAddressById(Guid id)
     {
         return _addressRepository.GetById(id);
     }
@@ -103,6 +106,8 @@ public class UserService
 
     private void ValidateAddress(Address address)
     {
+        if (address == null)
+            throw new ArgumentNullException(nameof(address));
         if (string.IsNullOrEmpty(address.Street))
             throw new ArgumentException("La rue est requise.");
         if (string.IsNullOrEmpty(address.City))

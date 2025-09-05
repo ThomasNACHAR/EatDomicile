@@ -12,6 +12,9 @@ public class UserRepository<T> : Repository<T>, IUserRepository<T> where T : Use
 
     public User? GetUserByEmail(string email)
     {
-        return _context.Users.FirstOrDefault(u => u.Email == email);
+        if (string.IsNullOrWhiteSpace(email))
+            return null;
+
+        return _context.Users.FirstOrDefault(u => u.Email.ToLower().Trim() == email.ToLower().Trim());
     }
 }
