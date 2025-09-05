@@ -22,5 +22,13 @@ public class EatDomicileContext : DbContext
         optionsBuilder.UseSqlServer("Server=localhost,1433;Database=EatDomicile;User Id=sa;Password=Hogan2003!;TrustServerCertificate=True;");
     }
     
-    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Order>()
+            .HasOne(o => o.Address)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Restrict);
+    }
 }

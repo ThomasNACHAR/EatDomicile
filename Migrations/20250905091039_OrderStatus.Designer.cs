@@ -4,6 +4,7 @@ using EatDomicile.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EatDomicile.Migrations
 {
     [DbContext(typeof(EatDomicileContext))]
-    partial class EatDomicileContextModelSnapshot : ModelSnapshot
+    [Migration("20250905091039_OrderStatus")]
+    partial class OrderStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -118,12 +121,6 @@ namespace EatDomicile.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AddressId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AddressId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("DeliveryDate")
                         .HasColumnType("datetime2");
 
@@ -138,10 +135,6 @@ namespace EatDomicile.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AddressId");
-
-                    b.HasIndex("AddressId1");
 
                     b.HasIndex("UserId");
 
@@ -316,23 +309,11 @@ namespace EatDomicile.Migrations
 
             modelBuilder.Entity("EatDomicile.Models.Order", b =>
                 {
-                    b.HasOne("EatDomicile.Models.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("EatDomicile.Models.Address", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("AddressId1");
-
                     b.HasOne("EatDomicile.Models.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Address");
 
                     b.Navigation("User");
                 });
@@ -395,8 +376,6 @@ namespace EatDomicile.Migrations
 
             modelBuilder.Entity("EatDomicile.Models.Address", b =>
                 {
-                    b.Navigation("Orders");
-
                     b.Navigation("Users");
                 });
 
